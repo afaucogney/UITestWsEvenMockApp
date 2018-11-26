@@ -10,7 +10,6 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import android.view.ViewGroup
-import de.greenrobot.event.EventBus
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
@@ -31,9 +30,6 @@ class MainActivityTestWithMockk {
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    //    @Mock
-//    lateinit
-
 
     @Before
     fun setup() {
@@ -44,7 +40,6 @@ class MainActivityTestWithMockk {
     @Test
     fun mainActivityTest() {
         val mDataManager = mockk<DataManager>()
-//        val mEventBus = mockk<EventBus>()
 
         every { mDataManager.requestWebService() } answers {
             mActivityTestRule.runOnUiThread {
