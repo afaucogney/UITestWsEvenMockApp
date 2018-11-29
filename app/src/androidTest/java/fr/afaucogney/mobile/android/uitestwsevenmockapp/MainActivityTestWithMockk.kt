@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.mockk
+import io.mockk.mockkConstructor
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -39,9 +39,12 @@ class MainActivityTestWithMockk {
 
     @Test
     fun mainActivityTest() {
-        val mDataManager = mockk<DataManager>()
 
-        every { mDataManager.requestWebService() } answers {
+        // Mock DataManager Constructor
+        mockkConstructor(DataManager::class)
+
+        // Stub requestWebService with a activity call that simulated eventbus callback call
+        every { anyConstructed<DataManager>().requestWebService() } answers {
             mActivityTestRule.runOnUiThread {
                 mActivityTestRule.activity.onEventMainThread(
                     RequestResponseEvent("bonjour")
@@ -82,7 +85,6 @@ class MainActivityTestWithMockk {
             )
         )
         floatingActionButton.perform(click())
-
 
 
         val textView2 = onView(
